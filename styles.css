@@ -151,6 +151,19 @@ section.topo-do-site .flex {
 }
 .logo img { width: 130px; height: auto; }
 
+/* Hover especial para o logo */
+.logo img,
+.logo-footer img {
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+.logo img:hover,
+.logo-footer img:hover {
+  transform: scale(1.1) rotate(-3deg); /* leve zoom + rotação */
+  filter: drop-shadow(0 0 12px #E93D3D) brightness(1.2);
+}
+
 /* ================================
    METODOLOGIAS
 ================================ */
@@ -470,10 +483,27 @@ section.contato h2 {
   color: #fff;
   margin-inline: 8px;
 }
+/* ===== AJUSTES WHATSAPP ===== */
 .contato-whatsapp i {
   font-size: 60px;
   color: #25D366;
-  margin-bottom: 15px;
+  margin-bottom: 20px; /* antes era 15px → mais respiro abaixo do ícone */
+}
+
+.contato-whatsapp h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 14px; /* espaço extra abaixo do título */
+}
+
+.contato-whatsapp p {
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 18px; /* separa do botão */
+}
+.contato-whatsapp .btn-whats {
+  margin-top: 20px; /* garante distância do texto */
+  display: inline-block;
 }
 .btn-whats {
   display: inline-block;
@@ -546,6 +576,8 @@ section.contato h2 {
   color: #b9c3d9; opacity: 1;                  
 }
 
+
+
 /* ================================
    RODAPÉ
 ================================ */
@@ -571,6 +603,24 @@ footer .footer-text.small {
   color: #ccc;
 }
 
+/* ===== Animação coração do footer ===== */
+.heart {
+  display: inline-block;
+  color: #E93D3D;
+  animation: heartbeat 1.3s infinite;
+  filter: drop-shadow(0 0 6px rgba(233, 61, 61, 0.7));
+}
+
+/* Animação tipo batimento cardíaco */
+@keyframes heartbeat {
+  0%   { transform: scale(1);   filter: drop-shadow(0 0 4px rgba(233, 61, 61, 0.6)); }
+  25%  { transform: scale(1.4); filter: drop-shadow(0 0 14px rgba(233, 61, 61, 0.9)); }
+  40%  { transform: scale(0.9);}
+  60%  { transform: scale(1.3); filter: drop-shadow(0 0 16px rgba(233, 61, 61, 1)); }
+  100% { transform: scale(1);   filter: drop-shadow(0 0 6px rgba(233, 61, 61, 0.7)); }
+}
+
+
 
 /* ================================
    MEDIA QUERIES
@@ -589,6 +639,50 @@ footer .footer-text.small {
   font-size: 34px;   /* aumenta o X */
   color: #fff;
 }
+/* ===== MOBILE: TÍTULOS (fonte única de verdade) ===== */
+@media screen and (max-width: 768px) {
+  :root{
+    --title-fs-mb: 28px;      /* tamanho */
+    --title-lh-mb: 34px;      /* line-height */
+    --title-color-mb: #fff;   /* cor do título */
+    --title-accent-mb: #E93D3D; /* cor do <span> */
+    --title-weight-mb: 800;   /* peso */
+    --title-lines-mb: 2;      /* nº de linhas (mude p/ 1, 2, 3...) */
+    --title-margin-mb: 0 0 24px;
+    --title-align-mb: center;
+  }
+
+  /* Aplica a todos os títulos de sessão que usam .titulo */
+  :is(section, main, .interface) :is(h1.titulo, h2.titulo, .titulo){
+    font-size: var(--title-fs-mb) !important;
+    line-height: var(--title-lh-mb) !important;
+    color: var(--title-color-mb) !important;
+    font-weight: var(--title-weight-mb) !important;
+    text-align: var(--title-align-mb) !important;
+    margin: var(--title-margin-mb) !important;
+
+    /* Clamp de linhas */
+    display: -webkit-box;
+    -webkit-line-clamp: var(--title-lines-mb);
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+  }
+
+  :is(h1.titulo, h2.titulo, .titulo) span{
+    color: var(--title-accent-mb) !important;
+  }
+
+  section.metodologias h2.titulo{
+    position: static !important;
+    transform: none !important;
+  }
+  section.metodologias h2.titulo .front,
+  section.metodologias h2.titulo .back{
+    position: static !important;
+    transform: none !important;
+  }
+}
 
 @media screen and (min-width: 1127px) {
   .btn-abrir-menu { display: none; }
@@ -599,13 +693,12 @@ footer .footer-text.small {
 @media screen and (max-width: 1120px) {
   .flex { flex-direction: column; }
   .topo-do-site .flex { flex-direction: column-reverse; }
-  h2.titulo { font-size: 34px; line-height: 28px; }
   .menu-desktop, .btn-contato { display: none; }
 }
 
 @media screen and (max-width: 768px) {
   html, body {
-    overflow-x: hidden;   /* trava scroll lateral */
+    overflow-x: hidden;  
   }
 }
 
