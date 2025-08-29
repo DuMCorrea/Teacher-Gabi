@@ -696,11 +696,7 @@ footer .footer-text.small {
   .menu-desktop, .btn-contato { display: none; }
 }
 
-@media screen and (max-width: 768px) {
-  html, body {
-    overflow-x: hidden;  
-  }
-}
+
 
 
  /* TOPO DO SITE */

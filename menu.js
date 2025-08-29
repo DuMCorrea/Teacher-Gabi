@@ -45,6 +45,8 @@ document.querySelectorAll('.menu-mobile nav a[href^="#"]').forEach(link => {
   });
 });
 
+
+
 // ===== Função utilitária para fechar =====
 function fecharMenu() {
   menu.classList.remove('abrir-menu');
