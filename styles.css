@@ -209,7 +209,7 @@ section.sobre .flex {
 .sobre .txt-sobre { color: #fff; }
 .img-sobre img {
   width: 400px; 
-  height: 580px;
+  height: 480px;
   object-fit: cover; 
   border-radius: 20px; 
   display: block;
@@ -300,23 +300,38 @@ section.feedbacks .titulo {
   color: #e9eef7;
   margin: 6px 0 0 0;
 }
-.fb-cta { text-align: center; margin-top: 28px; }
-.fb-cta .btn-cta {
+.fb-cta-feedback { text-align: center; margin-top: 28px; }
+.fb-cta-feedback .btn-cta-feedback {
   display: inline-block;
   padding: 14px 24px;
   border-radius: 10px;
 }
+
+.btn-cta-feedback {
+  display: inline-block;
+  margin-top: 40px;
+  padding: 15px 30px;
+  background: #E93D3D;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: 0.3s;
+  text-decoration: none;
+}
+.btn-cta-feedback:hover { background: #ff5555; }
+
+
+
 .fb-carousel{
   position: relative;
   --gap: 28px;
   --cols: 3;           
 }
-.fb-viewport{
+.fb-viewport {
   overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;      
-  -webkit-overflow-scrolling: touch;
+  overflow-y: visible;
+  padding-top: 10px;  
+  margin-top: -10px;  
 }
 .fb-viewport::-webkit-scrollbar{ display:none; }
 .fb-track{
@@ -440,7 +455,7 @@ section.enemeufrgs .flex {
   margin: 0 auto 40px auto;
   font-size: 18px;
 }
-.btn-cta {
+.btn-cta-vestibulares {
   display: inline-block;
   margin-top: 40px;
   padding: 15px 30px;
@@ -451,8 +466,14 @@ section.enemeufrgs .flex {
   transition: 0.3s;
   text-decoration: none;
 }
-.btn-cta:hover { background: #ff5555; }
+.btn-cta-vestibulares:hover { background: #ff5555; }
 .enemeufrgs .cta { text-align: center; }
+
+.btn-cta-vestibulares::after {
+  font-size: 20px;
+  content: " 👇";
+  margin-left: 06px;
+}
 
 /* ================================
    CONTATO
@@ -556,7 +577,7 @@ section.contato h2 {
 }
 .contato-form input{
   height: 56px; line-height: normal;
-  padding: 0 15px; text-align: left;
+  padding: 0 25px; text-align: left;
 }
 .contato-form input:placeholder-shown{
   text-align: center; line-height: 56px;
@@ -575,6 +596,36 @@ section.contato h2 {
 .contato-form textarea::placeholder{
   color: #b9c3d9; opacity: 1;                  
 }
+
+.contato-email-header {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.contato-email-header i {
+  font-size: 60px;
+  color: #FF4B4B; 
+  padding: 12px;
+  display: inline-block;
+}
+
+.contato-email-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.contato-form {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 440px;
+  text-align: center;
+  color: #fff;
+  margin-inline: 8px;
+}
+
+
 
 
 
@@ -919,32 +970,118 @@ section.metodologias .flex {
 
 
 @media screen and (max-width: 768px) {
-  section.valores .titulo {
-    font-size: 28px;
-    line-height: 34px;
-    margin-bottom: 28px;
-  }
-
   .valores-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 👈 3 colunas */
+    display: flex;
+    flex-direction: column;
     gap: 16px;
   }
 
+  /* Card principal (ativo) */
+  .valor-card.active {
+    display: block;
+    padding: 22px;
+    border-radius: 12px;
+    animation: fadeIn 0.6s ease-in-out;
+    flex-direction: column;
+    text-align: center;
+    cursor: default;
+    order: -1; /* sempre no topo */
+  }
+
+  /* Cards secundários (compactos) */
   .valor-card {
-    padding: 20px 12px;
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 18px 22px;
+    border-radius: 10px;
+    transition: background 0.3s, transform 0.2s;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .valor-card i {
+    font-size: 50px;
+    min-width: 40px;
+    text-align: center;
   }
 
   .valor-card h3 {
-    font-size: 16px;
+    flex: 0 1 auto;
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.4;
   }
 
   .valor-card p {
-    font-size: 13px;
-    line-height: 1.4;
+    display: none;
+  }
+
+  .valor-card.active p {
+    display: block;
+  }
+
+  /* alternância controlada via classe */
+  .valor-card.alt-left {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .valor-card.alt-right {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+
+ .valor-card[data-index="2"] {
+    justify-content: space-between; /* ícone de um lado, texto do outro */
+    padding-left: 24px; /* mais respiro à esquerda */
+    padding-right: 24px; /* mais respiro à direita */
+  }
+
+  .valor-card[data-index="2"] i {
+    margin-left: 12px;  /* afasta mais do texto */
+    margin-right: 12px; /* afasta da lateral direita */
+    margin-top: 8px;
+    font-size: 46px;    /* ligeiramente menor pra equilibrar */
+  }
+
+  .valor-card[data-index="2"] h3 {
+    flex: 1; 
+    text-align: center;   /* centraliza o texto */
+    margin: 0 auto;       /* mantém centralizado no espaço disponível */
+    line-height: 1.3;     /* compacta um pouco as linhas */
+  }
+
+/* Hover normal */
+.valor-card:hover {
+  background: rgba(233, 61, 61, 0.15);
+  transform: translateY(-2px);
+  transition: background 0.3s, transform 0.3s;
+}
+
+/* 👇 Mantém o hover aplicado no card ativo */
+.valor-card.active {
+  background: rgba(233, 61, 61, 0.15);
+  transform: translateY(-2px);
+}
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 }
+
+
+
+
+
+
+
+
+
 
 
 /* VESTIBULAR ENEM E UFRGS */

@@ -19,7 +19,15 @@ btnFechar.addEventListener('click', () => {
   fecharMenu();
 });
 
-// ===== Clicar em item do menu lateral =====
+// ===== Função utilitária para fechar =====
+function fecharMenu() {
+  menu.classList.remove('abrir-menu');
+  overlay.style.display = 'none';
+}
+
+/* ---------------------------
+   REDIRECIONAMENTO - MOBILE
+----------------------------*/
 document.querySelectorAll('.menu-mobile nav a[href^="#"]').forEach(link => {
   link.addEventListener('click', function(e) {
     e.preventDefault();
@@ -28,22 +36,44 @@ document.querySelectorAll('.menu-mobile nav a[href^="#"]').forEach(link => {
     const target = document.getElementById(targetId);
     if (!target) return;
 
-    // offsets específicos se precisar
     let offset = 0;
     if (targetId === "sobre") offset = -55;
     if (targetId === "enemeufrgs") offset = -50;
+    if (targetId === "contato") offset = 200; // 👈 mobile
 
     const top = target.getBoundingClientRect().top + window.scrollY - offset;
 
-    window.scrollTo({
-      top: top,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top, behavior: 'smooth' });
 
-    // fecha o menu após clicar
     fecharMenu();
   });
 });
+
+/* ---------------------------
+   REDIRECIONAMENTO - DESKTOP
+----------------------------*/
+document.querySelectorAll(
+  '.menu-desktop a[href^="#"], .btn-contato a[href^="#"], .enemeufrgs .btn-cta[href^="#"]'
+).forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    const targetId = this.getAttribute('href').substring(1);
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    let offset = 0;
+    if (targetId === "sobre") offset = -80;
+    if (targetId === "enemeufrgs") offset = -70;
+    if (targetId === "contato") offset = -80;
+
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+
+
 
 
 
@@ -119,4 +149,64 @@ window.addEventListener("resize", toggleDescriptions);
 // VALORES MOBILE
 
 
+
+(() => {
+  const cards = document.querySelectorAll('.valor-card');
+  if (!cards.length) return;
+
+  let current = 0;
+  let interval;
+
+  function setActive(index) {
+    cards.forEach(card => card.classList.remove('active'));
+    cards[index].classList.add('active');
+    current = index;
+    updateAlternation();
+
+    // 👇 Aplica o "flash-hover" no card ativo por 1s
+    const activeCard = cards[index];
+    activeCard.classList.add('flash-hover');
+    setTimeout(() => {
+      activeCard.classList.remove('flash-hover');
+    }, 1000);
+  }
+
+  function startAutoSlide() {
+    interval = setInterval(() => {
+      current = (current + 1) % cards.length;
+      setActive(current);
+    }, 10000); // 10 segundos
+  }
+
+  function resetAutoSlide() {
+    clearInterval(interval);
+    startAutoSlide();
+  }
+
+  function updateAlternation() {
+    cards.forEach(card => card.classList.remove('alt-left', 'alt-right'));
+    const others = [...cards].filter(c => !c.classList.contains('active'));
+    others.forEach((card, i) => {
+      if (i % 2 === 0) {
+        card.classList.add('alt-left');
+      } else {
+        card.classList.add('alt-right');
+      }
+    });
+  }
+
+  // inicializa
+  setActive(current);
+  startAutoSlide();
+
+  // clique nos cards
+  cards.forEach((card, index) => {
+    card.addEventListener('click', () => {
+      if (index !== current) {
+        setActive(index);
+        resetAutoSlide();
+      }
+    });
+  });
+})();
 
