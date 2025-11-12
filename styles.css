@@ -149,18 +149,23 @@ section.topo-do-site .flex {
   0% { top: 0; }
   100% { top: 30px; }
 }
-.logo img { width: 130px; height: auto; }
+.logo {
+  width: 85px;
+  height: 85px;
+  overflow: hidden;
+  display: inline-block;
+}
 
-/* Hover especial para o logo */
-.logo img,
-.logo-footer img {
-  transition: transform 0.3s ease, filter 0.3s ease;
+.logo img {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+  transform: translateX(-32px) translateY(-6px); /* posição fixa */
+  transition: filter 0.3s ease;
   cursor: pointer;
 }
 
-.logo img:hover,
-.logo-footer img:hover {
-  transform: scale(1.1) rotate(-3deg); /* leve zoom + rotação */
+.logo img:hover {
   filter: drop-shadow(0 0 12px #E93D3D) brightness(1.2);
 }
 
@@ -197,6 +202,39 @@ section.metodologias .flex {
   font-size: 28px;
   margin: 15px 0;
 }
+
+/* Metodologias – resumo/expansão */
+.metodologias .excerpt {
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  color: #fff;
+}
+
+.metodologias .full[hidden] { display: none; }
+.metodologias .full { margin-top: .5rem; }
+.metodologias .full ul { margin: .5rem 0 0 1.1rem; }
+.metodologias .full li { margin: .15rem 0; }
+
+/* Botão Ver mais / Ver menos */
+.metodologias .toggle-desc {
+  margin-top: .75rem;
+  padding: 6px 12px;
+  font-size: .875rem;
+  color: #E93D3D;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.metodologias .toggle-desc:hover {
+  background: #E93D3D;
+  color: #1B2B48;
+  border-color: #E93D3D;
+}
+
+
 
 /* ================================
    SOBRE
@@ -671,6 +709,16 @@ footer .footer-text.small {
   100% { transform: scale(1);   filter: drop-shadow(0 0 6px rgba(233, 61, 61, 0.7)); }
 }
 
+.logo-footer img {
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+
+.logo-footer img:hover {
+  transform: scale(1.1) rotate(-3deg); /* leve zoom + rotação */
+  filter: drop-shadow(0 0 12px #E93D3D) brightness(1.2);
+}
 
 
 /* ================================
@@ -864,6 +912,92 @@ section.metodologias .flex {
 @media screen and (max-width: 768px) {
   .desc-desktop { display: none; }
   .desc-mobile  { display: block; font-size: 13px; line-height: 1.4; }
+}
+
+/* Mobile – mantém sua hierarquia visual */
+@media screen and (max-width: 768px) {
+  .metodologias .excerpt {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+}
+.metodologia-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: modalFadeIn 0.3s ease;
+}
+
+.metodologia-modal.closing {
+  animation: modalFadeOut 0.3s ease forwards;
+}
+
+.metodologia-modal .modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(3px);
+}
+
+.metodologia-modal .modal-content {
+  position: relative;
+  background: #1B2B48;
+  color: #fff;
+  border-radius: 14px;
+  padding: 1.5rem;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  z-index: 2;
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+
+.metodologia-modal h3 {
+  color: #E93D3D;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.metodologia-modal .modal-body p,
+.metodologia-modal .modal-body li {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.metodologia-modal .modal-body ul {
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+.metodologia-modal .modal-close {
+  display: block;
+  margin: 1rem auto 0;
+  background: transparent;
+  color: #E93D3D;
+  border: 1px solid #E93D3D;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.metodologia-modal .modal-close:hover {
+  background: #E93D3D;
+  color: #1B2B48;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes modalFadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.95); }
 }
 
 

@@ -124,30 +124,23 @@ function fecharMenu() {
 
 function toggleDescriptions() {
   const isMobile = window.innerWidth <= 768;
-  
+
   document.querySelectorAll('.metodologias-box').forEach(box => {
-    const longDesc = box.querySelector('.desc-desktop');
+    const longDesc  = box.querySelector('.desc-desktop');
     const shortDesc = box.querySelector('.desc-mobile');
 
-    if (isMobile) {
-      longDesc.style.display = "none";
-      shortDesc.style.display = "block";
-    } else {
-      longDesc.style.display = "block";
-      shortDesc.style.display = "none";
-    }
+    // Só mexe se EXISTIR (compat com markup antigo)
+    if (longDesc)  longDesc.style.display  = isMobile ? 'none'  : 'block';
+    if (shortDesc) shortDesc.style.display = isMobile ? 'block' : 'none';
   });
 }
 
-// executa ao carregar
+// executa ao carregar (em páginas sem .desc-*, não quebra)
 toggleDescriptions();
-
-// executa ao redimensionar
-window.addEventListener("resize", toggleDescriptions);
+window.addEventListener('resize', toggleDescriptions);
 
 
 // VALORES MOBILE
-
 
 
 (() => {
@@ -209,4 +202,65 @@ window.addEventListener("resize", toggleDescriptions);
     });
   });
 })();
+
+
+
+// ============================
+// VER MAIS / VER MENOS (desktop) + MODAL (mobile)
+// ============================
+(() => {
+  const isMobile = () => window.innerWidth <= 768;
+
+  document.querySelectorAll('.metodologias-box .toggle-desc').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const box = btn.closest('.metodologias-box');
+      const full = box.querySelector('.full');
+      const aberto = !full.hasAttribute('hidden');
+
+      if (!isMobile()) {
+        if (aberto) {
+          full.setAttribute('hidden', '');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.textContent = 'Ver mais';
+        } else {
+          full.removeAttribute('hidden');
+          btn.setAttribute('aria-expanded', 'true');
+          btn.textContent = 'Ver menos';
+        }
+        return;
+      }
+
+      const title = box.querySelector('h3')?.textContent;
+      const content = full.innerHTML;
+
+      const existingModal = document.querySelector('.metodologia-modal');
+      if (existingModal) existingModal.remove();
+
+      const modal = document.createElement('div');
+      modal.className = 'metodologia-modal';
+      modal.innerHTML = `
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+          <h3>${title}</h3>
+          <div class="modal-body">${content}</div>
+          <button class="modal-close">Fechar</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      document.body.style.overflow = 'hidden'; 
+      const closeModal = () => {
+        modal.classList.add('closing');
+        setTimeout(() => {
+          modal.remove();
+          document.body.style.overflow = '';
+        }, 300);
+      };
+
+      modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
+      modal.querySelector('.modal-close').addEventListener('click', closeModal);
+    });
+  });
+})();
+
+
 
