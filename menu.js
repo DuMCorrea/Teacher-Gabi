@@ -209,7 +209,7 @@ window.addEventListener('resize', toggleDescriptions);
 // VER MAIS / VER MENOS (desktop) + MODAL (mobile)
 // ============================
 (() => {
-  const isMobile = () => window.innerWidth <= 768;
+  const isMobile = () => window.innerWidth <= 1366;
 
   document.querySelectorAll('.metodologias-box .toggle-desc').forEach(btn => {
     btn.addEventListener('click', () => {
