@@ -53,7 +53,70 @@ header > .interface {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 1440px;        
+  gap: 24px; 
 }
+@media (min-width: 1340px) and (max-width: 1505px) {
+  header > .interface {
+    max-width: 1360px; 
+    gap: 16px;          
+  }
+
+  header nav.menu-desktop ul li {
+    padding: 0 30px !important;   
+  }
+
+  .btn-contato button {
+    padding: 10px 30px; 
+    font-size: 17px;
+  }
+}
+/* ================================
+   LOGO SUPERIOR - EFEITO LUMINOSO NO TEXTO
+================================ */
+.logo {
+  width: 190px;
+  height: 46.9px;
+  overflow: hidden;
+}
+
+.logo a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: url('docs/logoSite.png');
+  background-repeat: no-repeat;
+  background-position: center calc(100% + 14px);
+  background-size: 82% auto;
+  text-indent: -9999px; 
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.4s ease, filter 0.3s ease;
+}
+
+.logo a:hover {
+  filter: brightness(1.3);
+  box-shadow: 0 0 15px rgba(233, 61, 61, 0.6),
+              0 0 30px rgba(233, 61, 61, 0.4);
+  transform: scale(1.06);
+}
+
+.logo a:active {
+  filter: brightness(1.15);
+  box-shadow: 0 0 10px rgba(233, 61, 61, 0.5);
+  transform: scale(0.96);
+}
+
+@media (max-width: 900px) {
+  .logo {
+    width: 170px;
+    height: 46px;
+  }
+  .logo a {
+    background-size: 84% auto;
+    background-position: center calc(100% + 12px);
+  }
+}
+
 header a {
   color: #5c5c5c;
   text-decoration: none;
@@ -143,33 +206,55 @@ section.topo-do-site .flex {
   color: #fff;
   margin: 40px 0;
 }
-.topo-do-site .img-topo-site img {
+
+.topo-do-site .img-topo-site .logo-brain {
+  width: 420px;            
+  height: 380px;
+  overflow: hidden;
   position: relative;
-  width: 370px;
   animation: flutuar 1s ease-in-out infinite alternate;
 }
+
+.topo-do-site .img-topo-site .logo-brain img {
+  position: relative;
+  width: 650px;            
+  height: auto;
+  left: -115px;            
+  top: -25px;              
+}
+
 @keyframes flutuar {
   0% { top: 0; }
   100% { top: 30px; }
 }
+
 .logo {
-  width: 85px;
-  height: 85px;
+  width: 190px;   
+  height: 46.9px;     
   overflow: hidden;
-  display: inline-block;
 }
 
-.logo img {
-  width: 150px;
-  height: auto;
-  object-fit: cover;
-  transform: translateX(-32px) translateY(-6px); /* posição fixa */
-  transition: filter 0.3s ease;
-  cursor: pointer;
+.logo a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: url('docs/logoSite.png');
+  background-repeat: no-repeat;
+  background-position: center calc(100% + 14px); 
+  background-size: 82% auto; 
+  text-indent: -9999px;
+  overflow: hidden;
 }
 
-.logo img:hover {
-  filter: drop-shadow(0 0 12px #E93D3D) brightness(1.2);
+.logo img { display: none; }
+
+
+@media (max-width: 900px) {
+  .logo { width: 170px; height: 46px; }
+  .logo a {
+    background-size: 84% auto;
+    background-position: center calc(100% + 12px);
+  }
 }
 
 /* ================================
@@ -521,7 +606,7 @@ section.enemeufrgs .flex {
 ================================ */
 
 .faq-section {
-  margin: 2rem auto;
+  margin: 5rem auto;
   text-align: center;
   max-width: 1000px;
 }
@@ -623,14 +708,16 @@ section.contato h2 {
   font-size: 50px;
   text-align: center;
 }
-.flex-contato {
-  display: flex;
-  align-items: center; 
+.flex-contato{
+  display: grid;
+  grid-template-columns: 320px auto 440px; /* whats | OU | email */
+  align-items: center;
   justify-content: center;
-  column-gap: 120px; row-gap: 60px; 
-  flex-wrap: wrap;
-  margin-top: 40px; 
+  column-gap: 120px;
+  row-gap: 60px;
+  margin-top: 40px;
 }
+
 .contato-whatsapp {
   background: rgba(255, 255, 255, 0.05);
   padding: 30px;
@@ -762,12 +849,41 @@ section.contato h2 {
 }
 
 
+.form-msg{
+  margin-top: 16px;
+  font-size: 15.5px;    
+  font-weight: 700;      
+  text-align: center;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: .2s ease;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 2px solid transparent; 
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+}
 
+.form-msg.success{
+  color: #25D366;
+  border-color: #25D366;          
+  background: rgba(37, 211, 102, 0.12);
+  opacity: 1;
+  transform: translateY(0);
+}
 
+.form-msg.error{
+  color: #E93D3D;
+  border-color: #E93D3D;           
+  background: rgba(233, 61, 61, 0.12);
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* ================================
    RODAPÉ
 ================================ */
+
 footer {
   background: #0a1a3a;
   color: #fff;
@@ -822,6 +938,22 @@ footer .footer-text.small {
 /* ================================
    MEDIA QUERIES
 ================================ */
+
+ /* TAMANHO FONTE DOS TÍTULOS DAS SESSÕES */
+
+@media screen and (min-width: 769px) {
+  h1.titulo,
+  h2.titulo,
+  .titulo {
+    font-size: 50px !important;
+    line-height: 56px !important;
+  }
+
+  .faq-title {
+    font-size: 50px !important;
+    line-height: 56px !important;
+  }
+}
 
  /*BOTÃO FECHAR MENU HAMBURGUER */
 
@@ -930,6 +1062,29 @@ footer .footer-text.small {
     width: 300px;                
   }
 }
+
+/* ================================
+   LOGO ANIMADA (SOMENTE CÉREBRO NO MOBILE)
+================================ */
+@media screen and (max-width: 768px) {
+  .topo-do-site .img-topo-site .logo-brain {
+     width: 320px;            
+  height: 250px;
+  overflow: hidden;
+  position: relative;
+  animation: flutuar 1s ease-in-out infinite alternate;
+  }
+
+    .topo-do-site .img-topo-site .logo-brain img {
+      position: relative;
+    width: 450px;            
+    height: auto;
+    left: -65px;            
+    top: -25px;            
+    }
+  }
+
+
 
 
  /* METODOLOGIA */
@@ -1295,7 +1450,7 @@ section.metodologias .flex {
     flex: 1; 
     text-align: center;   /* centraliza o texto */
     margin: 0 auto;       /* mantém centralizado no espaço disponível */
-    line-height: 1.3;     /* compacta um pouco as linhas */
+    line-height: 1.3;     
   }
 
 /* Hover normal */
@@ -1305,7 +1460,6 @@ section.metodologias .flex {
   transition: background 0.3s, transform 0.3s;
 }
 
-/* 👇 Mantém o hover aplicado no card ativo */
 .valor-card.active {
   background: rgba(233, 61, 61, 0.15);
   transform: translateY(-2px);
@@ -1318,47 +1472,38 @@ section.metodologias .flex {
 }
 
 
-
-
-
-
-
-
-
-
-
 /* VESTIBULAR ENEM E UFRGS */
 
 
 @media screen and (max-width: 768px) {
   section.enemeufrgs .titulo {
-    font-size: 28px;   /* 👈 título menor */
+    font-size: 28px;   
     line-height: 34px;
     margin-bottom: 24px;
   }
 
   section.enemeufrgs .intro {
-    font-size: 15px;   /* 👈 texto mais leve */
+    font-size: 15px;   
     line-height: 1.5;
-    padding: 0 12px;   /* 👈 respiro lateral */
+    padding: 0 12px;   
     margin-bottom: 24px;
   }
 
   section.enemeufrgs .flex {
-    flex-direction: column;     /* 👈 empilha no mobile */
-    align-items: center;        /* 👈 centraliza */
-    gap: 20px;                  /* 👈 espaçamento entre os cards */
+    flex-direction: column;     
+    align-items: center;    
+    gap: 20px;               
   }
 
   .enem-box {
-    max-width: 90%;             /* 👈 ocupa até 90% da tela */
+    max-width: 90%;            
     width: 100%;
-    text-align: center;         /* mantém alinhado */
+    text-align: center;         
     padding: 20px;
   }
 
   .enem-box i {
-    font-size: 38px;            /* ícones menores */
+    font-size: 38px;            
     margin-bottom: 10px;
   }
 
@@ -1381,6 +1526,50 @@ section.metodologias .flex {
     padding: 12px 20px;
   }
 }
+
+/* CONTATO */
+
+@media (max-width: 768px){
+  .flex-contato{
+    grid-template-columns: 1fr;
+    row-gap: 30px;
+    justify-items: center; /* garante centralização horizontal dos itens */
+  }
+
+  /* mesmos limites para os dois cards */
+  .contato-whatsapp,
+  .contato-form{
+    width: 100%;
+    max-width: 440px;  /* ou 360px, se quiser mais compacto no mobile */
+    margin-inline: 0;  /* evita micro-deslocamentos de margem lateral */
+  }
+
+  .contato-ou{
+    width: 100%;
+    text-align: center;
+  }
+}
+
+section.contato {
+  padding-top: 40px;
+}
+
+@media screen and (min-width: 769px) {
+    .contato-ou {
+      font-size: 50px !important;
+      line-height: 56px !important;
+      font-weight: 800 !important;
+    }
+  }
+
+    @media screen and (max-width: 768px) {
+    .contato-ou {
+      font-size: 28px !important;
+      line-height: 34px !important;
+      font-weight: 800 !important;
+      text-align: center;
+    }
+  }
 
 
 /****** Ajustes para telas médias ********/
@@ -1645,13 +1834,20 @@ section.metodologias .flex {
   }
 }
 
+
 /****** FAQ *******/
 
 @media (max-width: 768px) {
-    .faq-title {
-        font-size: 1.5rem;
-        margin-top: -100px;
-    }
+  .faq-title {
+    font-size: 28px !important;
+    line-height: 34px !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+    margin-bottom: 24px !important;
+    color: #fff !important;
+    margin-top: 10px;
+  }
+    
   
     .faq-question {
         font-size: 0.9rem;
@@ -1698,4 +1894,3 @@ section.metodologias .flex {
     font-size: 42px;
   }
 }
-

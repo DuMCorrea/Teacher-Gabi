@@ -303,3 +303,63 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+// ============================
+// CONTATO: envio sem redirect (FormSubmit via AJAX)
+// ============================
+(() => {
+  const form = document.getElementById("contato-form");
+  const msgEl = document.getElementById("form-msg");
+
+  if (!form || !msgEl) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // feedback visual: opcional (desabilita botão durante envio)
+    const submitBtn = form.querySelector('input[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.value = "Enviando...";
+    }
+
+    msgEl.textContent = "";
+    msgEl.classList.remove("success", "error");
+
+    try {
+      const formData = new FormData(form);
+
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      if (response.ok) {
+        form.reset();
+        msgEl.textContent = "Mensagem enviada com sucesso! Em breve entraremos em contato.";
+        msgEl.classList.add("success");
+      } else {
+        msgEl.textContent = "Não foi possível enviar agora. Tente novamente em instantes.";
+        msgEl.classList.add("error");
+      }
+    } catch (err) {
+      console.error(err);
+      msgEl.textContent = "Erro de conexão. Verifique sua internet e tente novamente.";
+      msgEl.classList.add("error");
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.value = "ENVIAR";
+      }
+
+      // some a mensagem depois de alguns segundos (opcional)
+      setTimeout(() => {
+        msgEl.textContent = "";
+        msgEl.classList.remove("success", "error");
+      }, 6000);
+    }
+  });
+})();
